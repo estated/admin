@@ -1,7 +1,7 @@
 import React from 'react'
 import GridContainer from '../components/layout/layout'
 import AreaChart from '../components/biz/area/areaChart'
-import { VictoryArea, VictoryChart, VictoryZoomContainer, VictoryBrushContainer, VictoryAxis } from 'victory';
+import { VictoryArea, VictoryChart, VictoryZoomContainer } from 'victory';
 import { Grid } from 'semantic-ui-react'
 
 const fakeData = (days) => {
@@ -9,7 +9,7 @@ const fakeData = (days) => {
 
   for (let index = 0; index <= days; index++) {
     let date =  new Date();
-    date.setDate(date.getDate() + index)
+    date.setDate(date.getDate() + index);
 
     data.push({ 
       a: date, 
@@ -18,7 +18,7 @@ const fakeData = (days) => {
   }
 
   return data;
-}
+};
 
 export default () => (
     <GridContainer>

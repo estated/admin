@@ -1,37 +1,12 @@
 import React from 'react'
+import Link from 'next/link'
 import GridContainer from '../components/layout/layout'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Button } from 'semantic-ui-react'
 import ReactTable from 'react-table'
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import fetch from 'node-fetch';
-import { ApolloClient } from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloProvider } from "react-apollo";
 import ListPreLoader from "../components/layout/loaders/list";
-
-const PROPERTIES_QUERY = gql`
-{
-  properties {
-    uuid
-    title
-    type
-    createdAt
-    price {
-      amount
-      currency
-    }
-  }
-}`;
-const client = new ApolloClient({
-  ssrMode: true,
-  link: new HttpLink({
-    uri: 'http://localhost:3001/graphql',
-    fetch,
-  }),
-  cache: new InMemoryCache(),
-});
+import {PROPERTIES_QUERY} from "../components/api/schema";
+import ApiConnector from "../components/api/connector";
 
 const columns = [
   {
@@ -60,11 +35,22 @@ const columns = [
 
 export default () => (
   <GridContainer>
-    <h2>Properties</h2>
     <Grid>
+      <Grid.Row columns={2}>
+        <Grid.Column>
+          <h2>Properties</h2>
+        </Grid.Column>
+        <Grid.Column>
+          <Button floated='right' color='black'>
+            <Link prefetch href={'/properties/create'}>
+              <a>new</a>
+            </Link>
+          </Button>
+        </Grid.Column>
+      </Grid.Row>
       <Grid.Row>
         <Grid.Column>
-          <ApolloProvider client={client}>
+          <ApiConnector>
             <Query
               asyncMode
               ssr={true}
@@ -82,7 +68,7 @@ export default () => (
                   );
                 }}
             </Query>
-          </ApolloProvider>
+          </ApiConnector>
         </Grid.Column>
       </Grid.Row>
     </Grid>

@@ -9,12 +9,10 @@ const ListPreLoader = props => (
     secondaryColor="#ecebeb"
     {...props}
   >
-    <rect x="0" y="10"  rx="3" ry="3" width="100%" height="6.4" />
-    <rect x="0" y="30" rx="3" ry="3" width="100%" height="6.4" />
-    <rect x="0" y="50" rx="3" ry="3" width="100%" height="6.4" />
-    <rect x="0" y="70" rx="3" ry="3" width="100%" height="6.4" />
-    <rect x="0" y="90" rx="3" ry="3" width="100%" height="6.4" />
-    <rect x="0" y="110" rx="3" ry="3" width="100%" height="6.4" />
+    <rect x="0" y="0" rx="5" ry="5" width="100%" height="30" />
+    <rect x="0" y="40" rx="5" ry="5" width="100%" height="30" />
+    <rect x="0" y="80" rx="5" ry="5" width="100%" height="30" />
+    <rect x="0" y="120" rx="5" ry="5" width="100%" height="30" />
   </ContentLoader>
 );
 

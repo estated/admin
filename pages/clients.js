@@ -1,93 +1,74 @@
-import React from 'react'
-import { Grid } from 'semantic-ui-react'
-import ReactTable from 'react-table'
+import { Grid, Label, Button, Item, Form, Input, Segment } from 'semantic-ui-react'
+import { Query } from 'react-apollo';
 import GridContainer from '../components/layout/layout'
+import ApiConnector from "../components/api/connector";
+import { LIST_USERS } from "../components/api/schema";
+import ListPreLoader from "../components/layout/loaders/list";
 
-const data = [{
-    name: 'Tanner Linsley',
-    age: 26,
-    friend: {
-      name: 'Jason Maurer',
-      age: 23,
-    }
-  },{
-    name: 'Tanner 2',
-    age: 23,
-    friend: {
-      name: 'Jason 2',
-      age: 27,
-    }
-  },{
-    name: 'Tanner 2',
-    age: 23,
-    friend: {
-      name: 'Jason 2',
-      age: 27,
-    }
-  },{
-    name: 'Tanner 2',
-    age: 23,
-    friend: {
-      name: 'Jason 2',
-      age: 27,
-    }
-  },{
-    name: 'Tanner 2',
-    age: 23,
-    friend: {
-      name: 'Jason 2',
-      age: 27,
-    }
-  },{
-    name: 'Tanner 2',
-    age: 23,
-    friend: {
-      name: 'Jason 2',
-      age: 27,
-    }
-  },{
-    name: 'Tanner 2',
-    age: 23,
-    friend: {
-      name: 'Jason 2',
-      age: 27,
-    }
-  },
-];
+const formatDate = (dateString) => ((new Date(dateString)).toLocaleString());
 
-const columns = [
-    {
-        Header: 'Name',
-        accessor: 'name' // String-based value accessors!
-    }, 
-    {
-        Header: 'Age',
-        accessor: 'age',
-        Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
-    }, 
-    {
-        id: 'friendName', // Required because our accessor is not a string
-        Header: 'Friend Name',
-        accessor: d => d.friend.name // Custom value accessors!
-    }, 
-    {
-        Header: props => <span>Friend Age</span>, // Custom header components!
-        accessor: 'friend.age'
-    }
-];
+const User = (user, key) => (
+    <Item key={key}>
+      <Item.Image size='tiny' src='https://react.semantic-ui.com/assets/images/avatar/large/jenny.jpg' />
+      <Item.Content>
+        <Item.Header as='a'>{ user.name + ' ' + user.surname }</Item.Header>
+        <Item.Meta>
+          <span>LOL</span>
+        </Item.Meta>
+        <Item.Extra>
+          <Label icon='at' content={ user.email } />
+          <Label icon='hashtag' content={ user.identityId } />
+          <Label icon='calendar' content={ formatDate(user.createdAt) } />
+        </Item.Extra>
+      </Item.Content>
+    </Item>
+);
 
 export default () => (
     <GridContainer>
-      <h2>Clients</h2>
-      <Grid>
-        <Grid.Row>
-          <Grid.Column>
-            <ReactTable
-                data={data}
-                columns={columns}
-            />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <ApiConnector>
+        <Query query={LIST_USERS}>
+          {({ loading, error, data, refetch }) => (
+            <Grid>
+              <Grid.Row columns={2}>
+                <Grid.Column>
+                  <h2>Clients</h2>
+                </Grid.Column>
+                <Grid.Column>
+                  <Button floated='right' color='black'>
+                    <a href={'/clients/create'}>New</a>
+                  </Button>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row columns={'1'}>
+                <Grid.Column>
+                  <Form>
+                    <Input
+                      className='icon equal width fields'
+                      icon='search'
+                      placeholder='Search...'
+                      loading={loading}
+                      onChange={(e) => refetch({query: e.target.value})}
+                    />
+                  </Form>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row column={1}>
+                <Grid.Column>
+                  <Item.Group divided>
+                    {error && <p>Error :(</p>}
+                    {loading
+                      ? <Grid.Column>
+                        <ListPreLoader />
+                      </Grid.Column>
+                      :  data.users.map(User)
+                    }
+                  </Item.Group>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          )}
+        </Query>
+      </ApiConnector>
     </GridContainer>
 )
