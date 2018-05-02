@@ -1,32 +1,50 @@
 import { SheetsRegistry } from 'jss';
 import { createMuiTheme, createGenerateClassName } from 'material-ui/styles';
 import red from 'material-ui/colors/red';
-import lightBlue from 'material-ui/colors/lightBlue';
+import grey from 'material-ui/colors/grey';
 
 // A theme with custom primary and secondary color.
 // It's optional.
 const theme = createMuiTheme({
   palette: {
     primary: {
+
       light: red[800],
-      main: red[800],
-      dark: red[800],
+      main: red[900],
+      dark: red[900],
+      contrastText: grey[50]
     },
     secondary: {
-      light: lightBlue[100],
-      main: lightBlue[200],
-      dark: lightBlue[300],
+      light: grey[50],
+      main: '#FFFFFF',
+      dark: grey[200],
+      contrastText: red[900]
     },
+    background: {
+      default: '#f5f5f5',
+    },
+    text: {
+      primary: grey[900],
+      secondary: grey[900],
+      disabled: grey[900],
+      hint: grey[900],
+    },
+    action: {
+      primary: grey[500],
+      secondary: grey[900],
+      disabled: grey[900],
+      hint: grey[900],
+    }
   },
   overrides: {
     MuiButton: {
       // Name of the styleSheet
       root: {
         // Name of the rule
-        background: 'linear-gradient(45deg, #CF0000 30%, #5d1515 100%)',
+        // background: `linear-gradient(45deg, ${grey[200]} 30%, ${red[900]} 100%)`,
         borderRadius: 3,
         border: 0,
-        color: 'white',
+        color: grey[200],
         height: 48,
         padding: '0 30px',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',

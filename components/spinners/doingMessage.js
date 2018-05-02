@@ -8,4 +8,4 @@ export default (text) =>
       { text || "I'm doing my shit..." }
     </Message.Content>
   </Message>
-;
+; 

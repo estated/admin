@@ -23,6 +23,10 @@ const styles = () => ({
   tableRow: {
     display: 'table',
     width: '100%'
+  },
+  error: {
+    textAlign: 'center',
+    padding: '30px'
   }
 });
 
@@ -42,12 +46,10 @@ const clients = ({ classes }) => (
           <Grid container className={classes.formContainer} spacing={24}>
             <Grid item xs={12} sm={12}>
               { error &&
-                <Paper elevation={4}>
-                  <Typography variant="headline" component="h3">
-                    Something went wrong mu friend, retry or contact support:(
+                  <Typography className={classes.error} variant="title" component="h4">
+                    Something went wrong my friend, retry or contact support:(
                   </Typography>
-                </Paper>
-              }
+            }
               {!error &&
                 <Table className={classes.table}>
                   <TableHead className={classes.tableRow}>
