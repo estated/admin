@@ -1,15 +1,11 @@
-import { Grid, Container } from 'semantic-ui-react'
-import MenuHeader from "./menu/menu";
+import React from 'react';
+import Menu from './menu/menu'
+import GridContainer from './grid'
 
-const GridContainer = props => (
-  <div>
-    <MenuHeader />
-    <Container style={{ marginTop: '5em' }}>
-      <Grid.Row>
-        { props.children }
-      </Grid.Row>
-    </Container>
-  </div>
+export default ({children}) => (
+  <Menu>
+    <GridContainer>
+      { children }
+    </GridContainer>
+  </Menu>
 );
-
-export default GridContainer

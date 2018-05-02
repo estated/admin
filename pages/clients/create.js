@@ -1,103 +1,158 @@
-import React, { Component } from 'react'
+import { Component } from 'react';
+import Button from 'material-ui/Button';
+import BackIcon from '@material-ui/icons/Backspace';
+import {withStyles} from "material-ui/styles/index";
+import { LinearProgress } from 'material-ui/Progress';
+import SubMenu from '../../components/layout/menu/subMenu';
+import withRoot from '../../components/layout/rootDocument';
+import Layout from '../../components/layout/layout'
+import { CREATE_USER } from '../../components/api/schema'
+import TextField from 'material-ui/TextField';
+import Grid from 'material-ui/Grid';
+import AddIcon from '@material-ui/icons/Add';
 import uuid from 'uuid/v4'
-import { Grid, Form, Button, Message } from 'semantic-ui-react'
-import { Mutation } from "react-apollo";
-import GridContainer from '../../components/layout/layout'
-import {CREATE_USER} from "../../components/api/schema";
-import waiting from '../../components/spinners/doingMessage'
-import ApiConnector from "../../components/api/connector";
+import { Paper } from 'material-ui'
+import List, { ListItem, ListItemText } from 'material-ui/List';
 
-export default class CreateClient extends Component {
+const styles = () => ({
+  root: {
+    flexGrow: 1,
+  },
+  formContainer: {
+    margin: 0,
+    width: '100%',
+  }
+});
+
+class CreateClient extends Component {
 
   state = {
-    loading: false,
-    client: {
-      uuid: '',
-      email: '',
-      identity: '',
-      name: '',
-      surname: ''
-    },
-    created: '',
-    errors: null
+    uuid: '',
+    email: '',
+    identityId: '',
+    name: '',
+    surname: ''
   };
 
-  handleField = (e, {name, value}) => {
-    const { client } = this.state;
-    client[name] = value;
-    this.setState(client);
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
   };
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <GridContainer>
-        <Grid>
-          <Grid.Row columns={2}>
-            <Grid.Column>
-              <h2>Create Client</h2>
-            </Grid.Column>
-            <Grid.Column>
-              <Button floated='right' color='black'>
-                <a href={'/clients'}>Go to List</a>
-              </Button>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <ApiConnector>
-                <Mutation
-                  mutation={CREATE_USER}
-                >
-                  {(createUser, { loading, error, data } ) => {
-                    if (data !== undefined && data.createUser === 'ok') {
-                      this.state.client = {};
-                    }
+      <Layout>
+        <CREATE_USER>
+          {(createUser, { loading, error, data } ) => (
+            <Paper>
+              <SubMenu title='New Client'>
+                <Button variant="raised" color="primary" aria-label="back" href='/clients'>
+                  <BackIcon/>
+                </Button>
+              </SubMenu>
+              <Grid container>
+                {error &&
+                  <List component="nav">
+                    {error && error.networkError && error.networkError.result && error.networkError.result.errors.map(({message}) =>(
+                      <ListItem button>
+                        <ListItemText primary={message} />
+                      </ListItem>
+                    ))}
+                  </List>
+                }
 
-                    return (
-                      loading
-                        ? waiting()
-                        : <Form
-                          warning={error !== undefined}
-                          success={data !== undefined}
-                          loading={this.state.loading}
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                            this.state.client.uuid = this.state.created = uuid();
+                {data && data.createUser && <Paper>UserCreated</Paper>}
+                {loading && <LinearProgress variant="query" color='secondary'/>}
+              </Grid>
+              <form name="create-client">
+                <Grid container className={classes.formContainer} spacing={24}>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="name"
+                      fullWidth
+                      label="Name"
+                      value={this.state.name}
+                      onChange={this.handleChange('name')}
+                      margin="normal"
+                      />
+                  </Grid>
+                  <Grid item xs={12} sm={8}>
+                    <TextField
+                      id="surname"
+                      fullWidth
+                      label="Surname"
+                      value={this.state.surname}
+                      onChange={this.handleChange('surname')}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="identity"
+                      fullWidth
+                      label="DNI"
+                      value={this.state.identityId}
+                      onChange={this.handleChange('identityId')}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={8}>
+                    <TextField
+                      id="email"
+                      fullWidth
+                      label="Email"
+                      value={this.state.name}
+                      onChange={this.handleChange('email')}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="name"
+                      fullWidth
+                      label="Name"
+                      value={this.state.name}
+                      onChange={this.handleChange('name')}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="name"
+                      fullWidth
+                      label="Name"
+                      value={this.state.name}
+                      onChange={this.handleChange('name')}
+                      margin="normal"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button
+                    variant="raised"
+                    color="primary"
+                    aria-label="add"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.state.uuid = this.state.created = uuid();
+                      createUser({ variables: this.state.client });
+                      console.log(this.state);
+                    }}>
 
-                            console.log(this.state.client);
-
-                            createUser({ variables: this.state.client });
-                        }}>
-                          { error && <Message warning>{ error.message.replace('GraphQL error:', '') }</Message> }
-                          { data  && <Message info>Created: { this.state.created }</Message> }
-                          <Form.Group widths='equal'>
-                            <Form.Field>
-                              <label>Name</label>
-                              <Form.Input placeholder='Name' name='name' value={this.state.client.name} onChange={this.handleField} />
-                            </Form.Field>
-                            <Form.Field>
-                              <label>Surname</label>
-                              <Form.Input placeholder='Surname' name='surname' value={this.state.client.surname} onChange={this.handleField} />
-                            </Form.Field>
-                            <Form.Field>
-                              <label>DNI</label>
-                              <Form.Input placeholder='DNI' name='identity' value={this.state.client.identity} onChange={this.handleField} />
-                            </Form.Field>
-                          </Form.Group>
-                          <Form.Field>
-                            <label>Email</label>
-                            <Form.Input placeholder='Email' name='email' value={this.state.client.email} onChange={this.handleField} />
-                          </Form.Field>
-                          <Button color='black' type='submit'>Submit</Button>
-                        </Form>
-                    )
-                  }}
-                </Mutation>
-              </ApiConnector>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </GridContainer>
+                    <AddIcon />
+                  </Button>
+                </Grid>
+              </form>
+            </Paper>
+          )}
+        </CREATE_USER>
+      </Layout>
     )
+    ;
   }
 }
+
+export default withRoot(withStyles(styles, { withTheme: true })(CreateClient));

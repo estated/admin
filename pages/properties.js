@@ -1,76 +1,68 @@
-import React from 'react'
-import Link from 'next/link'
-import GridContainer from '../components/layout/layout'
-import { Grid, Button } from 'semantic-ui-react'
-import ReactTable from 'react-table'
-import { Query } from "react-apollo";
-import ListPreLoader from "../components/layout/loaders/list";
-import {PROPERTIES_QUERY} from "../components/api/schema";
-import ApiConnector from "../components/api/connector";
+import withRoot from '../components/layout/rootDocument';
+import Layout from '../components/layout/layout'
+import { LIST_PROPERTIES } from '../components/api/schema'
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Button from 'material-ui/Button';
+import AddIcon from '@material-ui/icons/Add';
+import { LinearProgress, Paper } from 'material-ui';
+import SubMenu from '../components/layout/menu/subMenu';
+import {withStyles} from "material-ui/styles/index";
 
-const columns = [
-  {
-    Header: 'Id',
-    accessor: 'uuid'
+const formatDate = (dateString) => ((new Date(dateString)).toLocaleString());
+
+const styles = () => ({
+  table: {
+    display: 'block',
+    width: '100%',
+    overflowX: 'auto',
   },
-  {
-    Header: 'Title',
-    accessor: 'title'
-  },
-  {
-    Header: 'Created At',
-    accessor: 'createdAt'
-  },
-  {
-    id: 'price',
-    Header: 'Price',
-    accessor: d => d.price.amount  + d.price.currency
-  },
-  {
-    id: 'type',
-    Header: props => <span>Type</span>,
-    accessor: d => (d.type === 1) ? 'rent' : 'sale'
+  tableRow: {
+    display: 'table',
+    width: '100%'
   }
-];
+});
 
-export default () => (
-  <GridContainer>
-    <Grid>
-      <Grid.Row columns={2}>
-        <Grid.Column>
-          <h2>Properties</h2>
-        </Grid.Column>
-        <Grid.Column>
-          <Button floated='right' color='black'>
-            <Link prefetch href={'/properties/create'}>
-              <a>new</a>
-            </Link>
-          </Button>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid.Column>
-          <ApiConnector>
-            <Query
-              asyncMode
-              ssr={true}
-              query={PROPERTIES_QUERY}
-            >
-              {({ loading, error, data }) => {
-                  if (loading) return <ListPreLoader />;
-                  if (error) return <p>Error :(</p>;
+const properties = ({ classes }) => (
+  <Layout>
+    <LIST_PROPERTIES>
+      {({loading, error, data, refetch}) => (
+        <Paper>
+          <SubMenu
+            title='Properties'
+            search={true}
+            action={(e) => refetch({ query: e.target.value })}>
+            <Button variant="raised" color="primary" aria-label="add" href='/properties/create'>
+              <AddIcon />
+            </Button>
+          </SubMenu>
+          {error && <p>Error :(</p>}
+          <Table className={classes.table}>
+            <TableHead className={classes.tableRow}>
+              <TableRow>
+                <TableCell><h2>ID</h2></TableCell>
+                <TableCell><h2>Title</h2></TableCell>
+                <TableCell><h2>Created At</h2></TableCell>
+                <TableCell><h2>Price</h2></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody className={classes.tableRow}>
+              {(!loading && data) && data.properties.map((properties, key)=> (
+                <TableRow key={key}>
+                  <TableCell>{ properties.uuid }</TableCell>
+                  <TableCell>{ properties.title }</TableCell>
+                  <TableCell >{ formatDate(properties.createdAt) }</TableCell>
+                  <TableCell>{ properties.price.amount + ' ' + properties.price.currency }</TableCell>
+                </TableRow>
+              ))
+              }
+            </TableBody>
+          </Table>
+          {loading && <LinearProgress variant="query" color='secondary'/>}
 
-                  return (
-                    <ReactTable
-                      data={data.properties}
-                      columns={columns}
-                    />
-                  );
-                }}
-            </Query>
-          </ApiConnector>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
-  </GridContainer>
-)
+        </Paper>
+      )}
+    </LIST_PROPERTIES>
+  </Layout>
+);
+
+export default withRoot(withStyles(styles, { withTheme: true })(properties));
