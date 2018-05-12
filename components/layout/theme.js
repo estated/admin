@@ -8,20 +8,17 @@ import grey from 'material-ui/colors/grey';
 const theme = createMuiTheme({
   palette: {
     primary: {
-
-      light: red[800],
-      main: red[900],
+      light: red[300],
+      main: '#d32f30',
       dark: red[900],
-      contrastText: grey[50]
     },
     secondary: {
-      light: grey[50],
-      main: '#FFFFFF',
-      dark: grey[200],
-      contrastText: red[900]
+      light: grey[500],
+      main: grey[900],
+      dark: grey['A700'],
     },
     background: {
-      default: '#f5f5f5',
+      default: '#F5F5F5',
     },
     text: {
       primary: grey[900],
@@ -37,18 +34,11 @@ const theme = createMuiTheme({
     }
   },
   overrides: {
-    MuiButton: {
-      // Name of the styleSheet
+    MuiAppBar: {
       root: {
-        // Name of the rule
-        // background: `linear-gradient(45deg, ${grey[200]} 30%, ${red[900]} 100%)`,
-        borderRadius: 3,
-        border: 0,
-        color: grey[200],
-        height: 48,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
-      },
+        backgroundColor: 'transparent!important',
+        boxShadow: 'none',
+      }
     },
   },
 });

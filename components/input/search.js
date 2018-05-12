@@ -5,12 +5,11 @@ import Input, { InputAdornment } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 import Search from '@material-ui/icons/Search';
 
-const styles = theme => ({
-  margin: {
+const styles = () => ({
+  form: {
     width: '100%'
   },
   input: {
-    backgroundColor: theme.palette.secondary.light,
     padding: '8px',
     width: '100%'
   },
@@ -23,7 +22,7 @@ function InputWithIcon(props) {
   const { classes } = props;
 
   return (
-    <FormControl className={classes.margin}>
+    <FormControl className={classes.form}>
       <Input
         className={classes.input}
         onChange={props.action}

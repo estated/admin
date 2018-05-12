@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
+import Hidden from 'material-ui/Hidden';
+
 import Toolbar from 'material-ui/Toolbar';
 import List, { ListItem, ListItemIcon, ListItemText  } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from "material-ui/styles/index";
@@ -14,6 +15,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HomeIcon from '@material-ui/icons/Home';
 import UserIcon from '@material-ui/icons/Face';
 import classNames from 'classnames';
+import Search from '../../input/search';
 
 const drawerWidth = 240;
 
@@ -35,6 +37,12 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+  },
+  topBg: {
+    height: '120px',
+    backgroundColor: theme.palette.primary.main,
+    width: '100%',
+    position: 'fixed',
   },
   title: {
     textDecoration: 'none',
@@ -67,13 +75,27 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: '0 8px',
+    padding: '0 16px',
     ...theme.mixins.toolbar,
+    zIndex: 3
+  },
+  sideTitle: {
+    flex: 'auto',
+    textDecoration: 'none',
+    color: '#FFF'
+  },
+  topSearch: {
+    marginLeft: '10%',
+    width: '66%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.primary.light,
   },
   content: {
     flexGrow: 1,
     width: '100%',
-    backgroundColor: theme.palette.background.default,
+    zIndex: 1,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -127,12 +149,14 @@ class Menu extends React.Component {
           paper: classes.drawerPaper,
         }}
       >
+        <div className={classes.topBg} />
         <div className={classes.drawerHeader}>
+          <Typography className={classes.sideTitle} variant="title" color="inherit" noWrap component='a' href="/">BADACASA</Typography>
           <IconButton onClick={this.handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
-        <Divider />
+        <Search />
         <List component="nav">
           <ListItem
             button
@@ -186,9 +210,15 @@ class Menu extends React.Component {
             <Typography className={classes.title} variant="title" color="inherit" noWrap component='a' href="/">
               Admin
             </Typography>
+            <Hidden only={['xs']}>
+              <div className={classes.topSearch}>
+                <Search />
+              </div>
+            </Hidden>
           </Toolbar>
         </AppBar>
         {before}
+        <div className={classes.topBg} />
         <main
           className={classNames(classes.content, classes[`content-${anchor}`], {
             [classes.contentShift]: open,

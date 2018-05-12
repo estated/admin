@@ -12,7 +12,7 @@ const styles = () => ({
 function GridContainer({ classes, children, full }) {
   return (
     <Grid container spacing={24} justify='center'>
-      <Grid item xs={12} sm={full ? 12 : 8}>
+      <Grid item xs={12} sm={full ? 12 : 10}>
         { children }
       </Grid>
     </Grid>

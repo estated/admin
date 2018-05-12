@@ -54,6 +54,7 @@ export const LIST_USERS = MapQuery(
       surname
       identityId
       createdAt
+      phone
     }
   }`
 );
@@ -73,4 +74,33 @@ export const LIST_PROPERTIES = MapQuery(
     }
   }`
 );
+
+
+export const SEARCH_ALL = MapQuery(
+  gql`
+  query users($query: String) {
+    users(query: $query) {
+      uuid
+      email
+      name
+      surname
+      identityId
+      createdAt
+      phone
+    }
+    
+    properties {
+      uuid
+      type
+      title
+      owner{
+        name
+      }
+      currentRent{
+        uuid
+      }
+    }
+    
+  }
+`);
 
