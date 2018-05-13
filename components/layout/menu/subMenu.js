@@ -4,10 +4,10 @@ import { withStyles } from 'material-ui/styles';
 import { AppBar, Toolbar, LinearProgress, Typography } from 'material-ui';
 import Search from '../../input/search';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     flexGrow: 1,
-    color: theme.palette.secondary.main
+    boxShadow: 'none'
   },
   flex: {
     flex: 1,
@@ -17,7 +17,7 @@ const styles = theme => ({
     marginRight: 20,
   },
   loading: {
-    marginTop: '-11px',
+    marginTop: '-9px',
   },
   search: {
     width: '100%'
@@ -27,11 +27,8 @@ const styles = theme => ({
 function ButtonAppBar(props) {
   const { classes } = props;
   return (
-    <AppBar className={classes.root} position="static" color='primary' >
-      <Toolbar>
-        {props.title && <Typography variant="title" color="inherit" className={classes.flex}>{props.title}</Typography>}
-        {props.children}
-      </Toolbar>
+    <AppBar className={classes.root} position="static" color='secondary' >
+      {props.children}
       {props.search &&
         <Toolbar className={classes.search}>
           <Search className={classes.search} action={props.action} />
@@ -46,7 +43,6 @@ function ButtonAppBar(props) {
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  title: PropTypes.string,
   search: PropTypes.bool,
   action: PropTypes.func,
   loading: PropTypes.bool,

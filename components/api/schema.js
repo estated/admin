@@ -33,12 +33,20 @@ const Mutate = (mutation) => (props) => {
 
 export const CREATE_USER = Mutate(
   gql`
-  mutation createUser($uuid: String!, $email: String!, $name: String!, $surname: String!, $identityId: String!) {
+  mutation createUser(
+    $uuid: String!, 
+    $email: String!, 
+    $name: String!, 
+    $surname: String!, 
+    $phone: String, 
+    $identityId: String!
+  ) {
     createUser(
       uuid: $uuid, 
       email: $email,
       name: $name,
       surname: $surname,
+      phone: $phone,
       identityId: $identityId
     )
   }`
@@ -104,3 +112,29 @@ export const SEARCH_ALL = MapQuery(
   }
 `);
 
+export const CREATE_PROPERTY = Mutate(
+  gql`
+  mutation createProperty(
+    $uuid: String!,
+    $title: String!,
+    $description: String!,
+    $type: Int!,
+    $lat: Int!,
+    $lon: Int!,
+    $price: Int!,
+    $currency: String!,
+    $ownerUuid: String,
+  ) {
+    createProperty(
+      uuid: $uuid,
+      title: $title,
+      description: $description
+      type: $type,
+      lat: $lat
+      lon: $lon
+      priceAmount: $price
+      currency: $currency,
+      ownerUuid: $ownerUuid
+    )
+  }`
+);

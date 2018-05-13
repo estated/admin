@@ -4,34 +4,45 @@ import { LIST_PROPERTIES } from '../components/api/schema'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add';
-import { LinearProgress, Paper } from 'material-ui';
+import { LinearProgress, Typography, Paper } from 'material-ui';
 import SubMenu from '../components/layout/menu/subMenu';
 import {withStyles} from "material-ui/styles/index";
 
 const formatDate = (dateString) => ((new Date(dateString)).toLocaleString());
 
-const styles = () => ({
-  table: {
-    display: 'block',
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
     width: '100%',
     overflowX: 'auto',
+
   },
-  tableRow: {
-    display: 'table',
-    width: '100%'
+  table: {
+    marginTop: theme.spacing.unit * 3,
+  },
+  addButton: {
+    right: '1rem',
+    marginLeft: 'auto',
+    marginTop: '-34px',
+  },
+  error: {
+    textAlign: 'center',
+    padding: '30px'
   }
 });
 
 const properties = ({ classes }) => (
-  <Layout>
+  <Layout title={<Typography variant="display1" color="inherit" >Properties</Typography>}>
     <LIST_PROPERTIES>
       {({loading, error, data, refetch}) => (
         <Paper>
           <SubMenu
             title='Properties'
             search={true}
+            loading={loading}
             action={(e) => refetch({ query: e.target.value })}>
-            <Button variant="raised" color="primary" aria-label="add" href='/properties/create'>
+            <Button className={classes.addButton} size="medium" variant="fab" color="secondary" aria-label="add" href='/properties/create'>
               <AddIcon />
             </Button>
           </SubMenu>

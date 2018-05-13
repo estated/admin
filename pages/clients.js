@@ -9,8 +9,6 @@ import SubMenu from '../components/layout/menu/subMenu';
 import {withStyles} from "material-ui/styles/index";
 import Checkbox from 'material-ui/Checkbox';
 
-const formatDate = dateString => ((new Date(dateString)).toLocaleString());
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -22,7 +20,9 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
   },
   addButton: {
-    marginTop: '-64px',
+    right: '1rem',
+    marginLeft: 'auto',
+    marginTop: '-34px',
   },
   error: {
     textAlign: 'center',
@@ -31,7 +31,7 @@ const styles = theme => ({
 });
 
 const clients = ({ classes }) => (
-  <Layout>
+  <Layout title={<Typography variant="display1" color="inherit" >Clients</Typography>}>
     <LIST_USERS>
       {({loading, error, data, refetch}) => (
         <Paper>
@@ -40,11 +40,18 @@ const clients = ({ classes }) => (
             search={true}
             loading={loading}
             action={(e) => refetch({ query: e.target.value })}>
-            <Button className={classes.addButton} size="medium" variant="fab" color="secondary" aria-label="add" href='/clients/create'>
+            <Button
+              className={classes.addButton}
+              size="medium"
+              variant="fab"
+              color="secondary"
+              aria-label="add"
+              href='/clients/create'
+            >
               <AddIcon />
             </Button>
           </SubMenu>
-          <Grid container className={classes.formContainer} spacing={24}>
+          <Grid container className={classes.formContainer}>
             <Grid item xs={12} sm={12} >
               { error &&
                   <Typography className={classes.error} variant="title" component="h4">

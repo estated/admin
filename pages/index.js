@@ -1,13 +1,19 @@
-import withRoot from '../components/layout/rootDocument';
-import Layout from '../components/layout/layout'
-import Paper from 'material-ui/Paper';
+import TopMenu from '../components/layout/layout'
+import {Paper} from 'material-ui'
 
-export default withRoot(() => (
-  <Layout>
+export default () => (
+  <TopMenu>
     <Paper>
       <h1>
         WEEEEBA WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .
+        WEEEEBA WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .
+        WEEEEBA WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .
+        WEEEEBA WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .
+        WEEEEBA WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .
+        WEEEEBA WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .
+        WEEEEBA WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .WEEEEBAAaaa .
       </h1>
     </Paper>
-  </Layout>
-));
+  </TopMenu>
+);
+

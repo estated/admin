@@ -11,18 +11,20 @@ const theme = createMuiTheme({
       light: red[300],
       main: '#d32f30',
       dark: red[900],
+      contrastText: '#FFF'
     },
     secondary: {
-      light: grey[500],
-      main: grey[900],
-      dark: grey['A700'],
+      light: '#FFF',
+      main: '#FFF',
+      dark: '#F0F0F0',
+      contrastText: '#000'
     },
     background: {
       default: '#F5F5F5',
     },
     text: {
       primary: grey[900],
-      secondary: grey[900],
+      secondary: '#000',
       disabled: grey[900],
       hint: grey[900],
     },
@@ -36,10 +38,16 @@ const theme = createMuiTheme({
   overrides: {
     MuiAppBar: {
       root: {
-        backgroundColor: 'transparent!important',
-        boxShadow: 'none',
+        boxShadow: '1px 0px 0px 1px ' + red[900],
       }
     },
+    MuiTypography: {
+      display1: {
+        fontWeight: 200,
+        paddingBottom: '30px',
+        color: '#FFF!important'
+      }
+    }
   },
 });
 

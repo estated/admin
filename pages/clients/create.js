@@ -1,6 +1,6 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import Button from 'material-ui/Button';
-import BackIcon from '@material-ui/icons/Backspace';
+import BackIcon from '@material-ui/icons/Clear';
 import {withStyles} from "material-ui/styles/index";
 import { LinearProgress } from 'material-ui/Progress';
 import SubMenu from '../../components/layout/menu/subMenu';
@@ -15,6 +15,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Typography from "material-ui/Typography";
 
 const styles = () => ({
   root: {
@@ -23,7 +24,12 @@ const styles = () => ({
   formContainer: {
     margin: 0,
     width: '100%',
-  }
+  },
+  backButton: {
+    right: '1rem',
+    marginLeft: 'auto',
+    marginTop: '-34px',
+  },
 });
 
 class CreateClient extends Component {
@@ -60,7 +66,7 @@ class CreateClient extends Component {
     const { classes } = this.props;
 
     return (
-      <Layout>
+      <Layout title={<Typography variant="display1" color="inherit" >New Client</Typography>}>
         <CREATE_USER>
           {(createUser, { loading, error, data } ) => {
             return (
@@ -89,7 +95,14 @@ class CreateClient extends Component {
                   ]}
                 />
                 <SubMenu title='New Client'>
-                  <Button size="small" variant="flat" color="primary" aria-label="back" href='/clients'>
+                  <Button
+                    className={classes.backButton}
+                    size="medium"
+                    variant="fab"
+                    color="secondary"
+                    aria-label="back"
+                    href='/clients'
+                  >
                     <BackIcon />
                   </Button>
                 </SubMenu>
@@ -107,7 +120,12 @@ class CreateClient extends Component {
                 </Grid>
                 <form name="create-client">
                   <Grid container className={classes.formContainer} spacing={24}>
-                    <Grid item xs={12} sm={4}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={4}
+                      md={4}
+                    >
                       <TextField
                         id="name"
                         autoComplete='name'
@@ -118,7 +136,12 @@ class CreateClient extends Component {
                         margin="normal"
                       />
                     </Grid>
-                    <Grid item xs={12} sm={8}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={4}
+                      md={4}
+                    >
                       <TextField
                         id="surname"
                         autoComplete='surname'
@@ -129,7 +152,12 @@ class CreateClient extends Component {
                         margin="normal"
                       />
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={4}
+                      md={4}
+                    >
                       <TextField
                         id="identity"
                         autoComplete='identity'
@@ -140,7 +168,12 @@ class CreateClient extends Component {
                         margin="normal"
                       />
                     </Grid>
-                    <Grid item xs={12} sm={8}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={8}
+                      md={4}
+                    >
                       <TextField
                         id="email"
                         fullWidth

@@ -10,26 +10,26 @@ class AdminDocument extends Document {
 
     return (
       <html lang="en" dir="ltr">
-      <Head>
-        <title>The Admin</title>
-        <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content={
-            'user-scalable=0, initial-scale=1, ' +
-            'minimum-scale=1, width=device-width, height=device-height'
-          }
-        />
-        <meta name="theme-color" content={pageContext.theme.palette.primary.main} />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
-        />
-      </Head>
-      <body>
-      <Main />
-      <NextScript />
-      </body>
+        <Head>
+          <title>The Admin</title>
+          <meta charSet="utf-8" />
+          <meta
+            name="viewport"
+            content={
+              'user-scalable=0, initial-scale=1, ' +
+              'minimum-scale=1, width=device-width, height=device-height'
+            }
+          />
+          <meta name="theme-color" content={pageContext.theme.palette.primary.main} />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+          />
+        </Head>
+        <body style={{margin: '0'}}>
+          <Main />
+          <NextScript />
+        </body>
       </html>
     );
   }
