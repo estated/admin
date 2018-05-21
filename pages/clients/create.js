@@ -17,7 +17,7 @@ import IconButton from 'material-ui/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from "material-ui/Typography";
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -26,10 +26,13 @@ const styles = () => ({
     width: '100%',
   },
   backButton: {
-    right: '1rem',
+    right: theme.spacing.unit,
     marginLeft: 'auto',
     marginTop: '-34px',
   },
+  submit: {
+    marginTop: theme.spacing.unit * 2
+  }
 });
 
 class CreateClient extends Component {
@@ -62,6 +65,12 @@ class CreateClient extends Component {
     this.setState({ notify: false });
   };
 
+  redirect(){
+    setTimeout(()=>{
+      window.location = '/clients'
+    }, 500);
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -73,7 +82,7 @@ class CreateClient extends Component {
               <Paper>
                 <Snackbar
                   anchorOrigin={{
-                    vertical: 'bottom',
+                    vertical: 'top',
                     horizontal: 'right',
                   }}
                   open={this.state.notify}
@@ -82,7 +91,7 @@ class CreateClient extends Component {
                   contentprops={{
                     'aria-describedby': 'message-id',
                   }}
-                  message={<span id="message-id"> {this.state.name} stored!</span>}
+                  message={<h3 id="message-id"> {this.state.name} stored!</h3>}
                   action={[
                     <IconButton
                       key="close"
@@ -195,20 +204,24 @@ class CreateClient extends Component {
                         margin="normal"
                       />
                     </Grid>
-                    <Grid item xs={12} sm={12}>
-                      <Button
-                        variant="raised"
-                        color="secondary"
-                        aria-label="add"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.state.uuid = this.state.created = uuid();
-                          this.state.createdAt = new Date();
-                          createUser({ variables: this.state }).then(this.notify);
-                        }}>
-                        Create
-                      </Button>
-                    </Grid>
+
+                    <Button
+                      className={classes.submit}
+                      variant="raised"
+                      color="primary"
+                      fullWidth={true}
+                      aria-label="add"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.state.uuid = this.state.created = uuid();
+                        this.state.createdAt = new Date();
+                        createUser({ variables: this.state }).then(() =>{
+                          this.notify();
+                          this.redirect();
+                        });
+                      }}>
+                      Create
+                    </Button>
                   </Grid>
                 </form>
               </Paper>

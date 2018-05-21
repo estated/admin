@@ -18,25 +18,38 @@ import { MenuItem } from 'material-ui/Menu';
 import { FormControl } from 'material-ui/Form';
 import Input, { InputAdornment } from 'material-ui/Input';
 import Typography from "material-ui/Typography";
-import SimpleMap from "../../components/map/simple";
+import Downshift from "downshift";
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
   formContainer: {
-    margin: 0,
+    marginLeft: '1rem',
+    marginRight: '1rem',
     width: '100%',
   },
   formControl: {
     width: '100%',
     marginTop: '16px'
   },
+  ownerItemAutocomplete: {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: theme.spacing.unit,
+    display: 'contents'
+  },
+  ownerItemAutocompleteItem: {
+    padding: theme.spacing.unit
+  },
   backButton: {
     right: '1rem',
     marginLeft: 'auto',
     marginTop: '-34px',
   },
+  submit: {
+    marginTop: theme.spacing.unit * 2
+  }
 });
 
 class CreateProperty extends Component {
@@ -52,7 +65,20 @@ class CreateProperty extends Component {
     price: '',
     currency: 'EUR',
     ownerUuid: null,
+    street: null,
+    city: 'Badalona',
+    num: null,
+    floor: null,
+    door: null,
   };
+
+  demoOwners() {
+    return [
+      {uuid:'asdad', name:"Paco de lucia"},
+      {uuid:'234sfa', name:"Juan Antonio Carretero Jimenez"},
+      {uuid:'2aw2qda', name:"Loly"},
+    ]
+  }
 
   handleChange = name => event => {
     this.setState({
@@ -60,7 +86,13 @@ class CreateProperty extends Component {
     });
   };
 
-  notify = () => {
+  setOwner = (owner) => {
+    this.setState({
+      ownerUuid: owner.uuid
+    })
+  };
+
+  notify() {
     this.setState({ notify: true });
   };
 
@@ -83,7 +115,7 @@ class CreateProperty extends Component {
               <Paper>
                 <Snackbar
                   anchorOrigin={{
-                    vertical: 'bottom',
+                    vertical: 'top',
                     horizontal: 'right',
                   }}
                   open={this.state.notify}
@@ -129,80 +161,201 @@ class CreateProperty extends Component {
                   {loading && <LinearProgress variant="query" color='secondary'/>}
                 </Grid>
                 <form name="create-property">
-                  <Grid container className={classes.formContainer} spacing={24}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        id="title"
-                        autoComplete='title'
-                        fullWidth
-                        label="Title"
-                        value={this.state.title}
-                        onChange={this.handleChange('title')}
-                        margin="normal"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={3}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="Type">Type</InputLabel>
-                        <Select
-                          value={this.state.type}
-                          onChange={this.handleChange('type')}
-                          inputProps={{
-                            name: 'type',
-                            id: 'Type',
-                          }}
-                        >
-                          <MenuItem value={1}>
-                            <em>Rent</em>
-                          </MenuItem>
-                          <MenuItem value={2}>Sale</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={3}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="price">Price</InputLabel>
-                        <Input
-                          id="price"
+                  <Grid container className={classes.formContainer}>
+                    <Grid container xs={12} sm={10} spacing={24}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          id="title"
+                          autoComplete='title'
                           fullWidth
-                          label="Price"
-                          autoComplete='price'
-                          value={this.state.price}
-                          onChange={this.handleChange('price')}
-                          startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                          margin="none"
+                          label="Title"
+                          value={this.state.title}
+                          onChange={this.handleChange('title')}
+                          margin="normal"
                         />
-                      </FormControl>
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <FormControl className={classes.formControl}>
+                          <InputLabel htmlFor="Type">Type</InputLabel>
+                          <Select
+                            value={this.state.type}
+                            onChange={this.handleChange('type')}
+                            inputProps={{
+                              name: 'type',
+                              id: 'Type',
+                            }}
+                          >
+                            <MenuItem value={1}>
+                              <em>Rent</em>
+                            </MenuItem>
+                            <MenuItem value={2}>Sale</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <FormControl className={classes.formControl}>
+                          <InputLabel htmlFor="price">Price</InputLabel>
+                          <Input
+                            id="price"
+                            fullWidth
+                            label="Price"
+                            autoComplete='price'
+                            value={this.state.price}
+                            onChange={this.handleChange('price')}
+                            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            margin="none"
+                          />
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} sm={12}>
+                        <TextField
+                          id="description"
+                          autoComplete='description'
+                          fullWidth
+                          multiline
+                          rowsMax="4"
+                          label="Description"
+                          value={this.state.description}
+                          onChange={this.handleChange('description')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={8}>
+                        <h2>Address</h2>
+                      </Grid>
+                      <Grid item xs={12} sm={8}>
+                        <TextField
+                          id="street"
+                          autoComplete='street'
+                          fullWidth
+                          label="Street"
+                          value={this.state.street}
+                          onChange={this.handleChange('street')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          id="city"
+                          autoComplete='city'
+                          fullWidth
+                          label="City"
+                          value={this.state.city}
+                          onChange={this.handleChange('city')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          id="num"
+                          autoComplete='num'
+                          fullWidth
+                          label="Number"
+                          value={this.state.num}
+                          onChange={this.handleChange('num')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          id="floor"
+                          autoComplete='floor'
+                          fullWidth
+                          label="Floor"
+                          value={this.state.floor}
+                          onChange={this.handleChange('floor')}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          id="door"
+                          autoComplete='door'
+                          fullWidth
+                          label="Door"
+                          value={this.state.door}
+                          onChange={this.handleChange('door')}
+                          margin="normal"
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12}>
-                      <TextField
-                        id="description"
-                        autoComplete='description'
-                        fullWidth
-                        multiline
-                        rowsMax="4"
-                        label="Description"
-                        value={this.state.description}
-                        onChange={this.handleChange('description')}
-                        margin="normal"
-                      />
-                    </Grid>
-                    <SimpleMap />
-                    <Grid item xs={12} sm={12}>
-                      <Button
-                        variant="raised"
-                        color="secondary"
-                        aria-label="add"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.state.uuid = this.state.created = uuid();
-                          this.state.createdAt = new Date();
-                          create({ variables: this.state }).then(this.notify);
-                        }}>
-                        Create
-                      </Button>
+                    <Grid container xs={12} sm={2}>
+                      <Grid item xs={12} sm={12}>
+                        <Downshift
+                          itemToString={(user) => {
+                            return user ? user.name : ''
+                          }}
+                          onChange={this.setOwner}
+                        >
+                          {({
+                              getInputProps,
+                              getItemProps,
+                              isOpen,
+                              inputValue,
+                              selectedItem,
+                              highlightedIndex,
+                            }) => (
+                            <div>
+                              <TextField
+                                style={{marginTop: '16px', marginBottom: '8px'}}
+                                id="owner"
+                                autoComplete='owner'
+                                fullWidth
+                                label="Owner"
+                                value={this.state.ownerUuid}
+                                {...getInputProps({placeholder: 'Owner ?'})}
+                              />
+                              {isOpen ? (
+                                <Paper className={classes.ownerItemAutocomplete}>
+
+                                  <Paper
+                                    {...getItemProps({item: {uuid: null, name: ''}})}
+                                    className={classes.ownerItemAutocompleteItem}
+                                  >
+                                    None
+                                  </Paper>
+                                  {this.demoOwners()
+                                    .filter(
+                                      user =>
+                                        !inputValue ||
+                                        user.name.toLowerCase().includes(inputValue.toLowerCase()),
+                                    )
+                                    .map((user, index) => (
+                                      <Paper
+                                        {...getItemProps({item: user})}
+                                        key={user.uuid}
+                                        className={classes.ownerItemAutocompleteItem}
+                                        style={{
+                                          backgroundColor:
+                                            highlightedIndex === index ? 'gray' : 'white',
+                                          fontWeight: selectedItem === user.uuid ? 'bold' : 'normal',
+                                        }}
+                                      >
+                                        {user.name}
+                                      </Paper>
+                                    ))}
+                                </Paper>
+                              ) : null}
+                            </div>
+                          )}
+                        </Downshift>
+                      </Grid>
                     </Grid>
                   </Grid>
+                  <Button
+                    className={classes.submit}
+                    variant="raised"
+                    color="primary"
+                    aria-label="add"
+                    fullWidth={true}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.state.uuid = this.state.created = uuid();
+                      this.state.createdAt = new Date();
+                      create({ variables: this.state }).then(this.notify);
+                    }}>
+                    Create
+                  </Button>
                 </form>
               </Paper>
             )

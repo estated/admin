@@ -17,6 +17,9 @@ const styles = theme => ({
   },
   content: {
     zIndex: 1,
+  },
+  titleWrapper: {
+    marginLeft: theme.spacing.unit,
   }
 });
 
@@ -32,7 +35,9 @@ function Layout({children, classes, title}) {
       <div className={classes.topBg} />
       { title && (
         <GridContainer>
-          { title }
+          <div className={classes.titleWrapper}>
+            { title }
+          </div>
         </GridContainer>
       )}
       <GridContainer>
